@@ -1,0 +1,5 @@
+en:
+  js:
+    discourse_public_topic:
+      public_topics: "Visibility"
+      make_topics_public: "Make topics in this category, public to anonymous users."
