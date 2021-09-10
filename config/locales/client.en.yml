@@ -3,3 +3,9 @@ en:
     discourse_public_topic:
       public_topics: "Visibility"
       make_topics_public: "Make topics in this category, public to anonymous users."
+    twitter:
+      title: Sahre on Twitter
+    facebook:
+      title: Sahre on Facebook
+    instagram:
+      title: Sahre on Instagram

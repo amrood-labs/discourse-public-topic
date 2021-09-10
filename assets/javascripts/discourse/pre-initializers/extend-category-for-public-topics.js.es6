@@ -1,5 +1,7 @@
 import discourseComputed from "discourse-common/utils/decorators";
 import Category from "discourse/models/category";
+import Site from "discourse/models/site";
+import ApplicationController from 'discourse/controllers/application';
 
 export default {
   name: "extend-category-for-public-topics",
@@ -16,6 +18,24 @@ export default {
             return value;
           }
         }
+      },
+    });
+
+    ApplicationController.reopen({
+      @discourseComputed
+      loginRequired() {
+        if (
+          this.target &&
+          this.target.currentState &&
+          this.target.currentState.router &&
+          this.target.currentState.router.activeTransition &&
+          this.target.currentState.router.activeTransition.resolvedModels.topic &&
+          !!this.target.currentState.router.activeTransition.resolvedModels.topic.id
+        ) {
+          this.siteSettings.login_required = false;
+          return false;
+        }
+        return this.siteSettings.login_required && !this.currentUser;
       }
     });
   }
