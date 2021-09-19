@@ -1,0 +1,66 @@
+<% if session['thanks'] %>
+  <div class="row">
+    <div id="global-notice-alert-bootstrap-mode" class="alert alert-info alert-bootstrap-mode">
+      <span class="text"><%= session['thanks'] %></span>
+    </div>
+  </div>
+<% end %>
+
+<%= form_tag(contact_us_path) do %>
+  <div class="wizard-step-contents">
+    <h1 class="wizard-step-title"><p><%= t('contact_us.title') %></p></h1>
+    <div class="wizard-step-description"><p><%= t('contact_us.description') %></p>
+  </div>
+
+  <div class="wizard-step-form wizard-step-step_1 ember-view">
+    <div class="wizard-field text-field text-step-1-field-1 step_1_field_1 ember-view">
+      <label for="name" class="field-label">
+      <p><%= t('contact_us.name') %></p>
+    </label>
+  
+    <div class="ember-view">
+      <div class="input-area">
+        <div class="ember-view">
+          <%= text_field_tag :name, '', required: true %>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+      <div class="wizard-field text-field ember-view">
+        <label for="email" class="field-label">
+          <p><%= t('contact_us.email') %></p>
+        </label>
+
+        <div class="ember-view">
+          <div class="input-area">
+            <div class="ember-view">
+              <%= email_field_tag :email, '', required: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wizard-field textarea-field">
+      <label for="query" class="field-label">
+        <p><%= t('contact_us.query') %></p>
+      </label>
+      
+      <div class="ember-view">
+        <div class="input-area">
+          <div class="ember-view">
+            <%= text_area_tag :query, '', required: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wizard-step-footer">
+    <div class="wizard-buttons">
+      <button class="widget-button btn btn-primary btn-small sign-up-button btn-text" tabindex="4" type="submit">
+        Submit
+      </button>
+    </div>
+  </div>
+<% end %>

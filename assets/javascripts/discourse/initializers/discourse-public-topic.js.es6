@@ -55,8 +55,7 @@ function initializeDiscoursePublicTopic(api) {
       }
       return Category._idMap()[id];
     }
-  })
-
+  });
 }
 
 export default {

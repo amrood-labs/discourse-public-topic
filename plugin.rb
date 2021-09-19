@@ -4,14 +4,21 @@
 # about: Make any topic public to anonymous users.
 # version: 0.1
 # authors: zaidakram
-# url: https://github.com/amrood-labs
 # org: Amrood Labs
+# url: https://github.com/amrood-labs
 
 enabled_site_setting :discourse_public_topic_enabled
 
-PLUGIN_NAME ||= 'discourse-public-topic'
-
 after_initialize do
+  %w[
+    ../lib/discourse_public_topic/engine.rb
+    ../config/routes.rb
+    ../controllers/discourse_public_topic/contact_us_controller.rb
+    ../mailers/discourse_public_topic/contact_mailer.rb
+  ].each do |path|
+    load File.expand_path(path, __FILE__)
+  end
+
   Site.preloaded_category_custom_fields << 'make_topics_public'
   
   add_to_serializer(:category, :make_topics_public, false) do
@@ -45,7 +52,6 @@ after_initialize do
       end
     end
 
-    puts "#{controller_name}##{action_name}"
     if !current_user && SiteSetting.login_required? && "#{controller_name}##{action_name}" != 'topics#show'
       flash.keep
       redirect_to_login
@@ -79,5 +85,22 @@ after_initialize do
     category = topic.category
     can_see_category?(category) &&
       (!category.read_restricted || !is_staged? || secure_category_ids.include?(category.id) || topic.user == user)
+  end
+
+  # Make static_controller look into our views folder as well.
+  # That is where the contact_us page is.
+  add_to_class(:static_controller, :add_contact_us_page_path) do
+    prepend_view_path "plugins/discourse-public-topic/views"
+  end
+  
+  # Contact Us page...
+  add_model_callback(:static_controller, :before_action) do
+    return unless action_name == 'show'
+    add_contact_us_page_path
+  end
+
+  # Set the thanks session to nil.
+  add_model_callback(:static_controller, :after_action) do
+    session['thanks'] = nil if session['thanks'] && action_name == 'show'
   end
 end
