@@ -147,7 +147,7 @@ export default function transformPost(
   if (post.actions_summary) {
     postAtts.actionsSummary = post.actions_summary
       .filter((a) => {
-        return a.actionType.name_key !== "like" && a.acted;
+        return a.actionType?.name_key !== "like" && a.acted;
       })
       .map((a) => {
         const action = a.actionType.name_key;

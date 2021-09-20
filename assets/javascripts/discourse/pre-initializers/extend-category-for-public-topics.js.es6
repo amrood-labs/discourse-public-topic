@@ -1,8 +1,11 @@
+import EmberObject from "@ember/object";
 import discourseComputed from "discourse-common/utils/decorators";
 import { deepMerge } from "discourse-common/lib/object";
 import Category from "discourse/models/category";
 import PostStream from "discourse/models/post-stream";
 import { loadTopicView } from "discourse/models/topic";
+import ActionSummary from "discourse/models/action-summary";
+import Post from "discourse/models/post";
 import Site from "discourse/models/site";
 import ApplicationController from 'discourse/controllers/application';
 
@@ -42,76 +45,34 @@ export default {
       }
     });
 
-    PostStream.reopen({
-      refresh(opts) {
-        console.log('opts', opts);
-        opts = opts || {};
-        opts.nearPost = parseInt(opts.nearPost, 10);
+    Post.reopenClass({
+      munge(json) {
+        if (json.actions_summary && json.actions_summary[0]?.can_act) {
+          const lookup = EmberObject.create();
 
-        if (opts.cancelFilter) {
-          this.cancelFilter();
-          delete opts.cancelFilter;
-        }
+          // this area should be optimized, it is creating way too many objects per post
+          json.actions_summary = json.actions_summary.map((a) => {
+            console.log(a);
+            a.actionType = Site.current().postActionTypeById(a.id);
+            a.count = a.count || 0;
+            const actionSummary = ActionSummary.create(a);
+            lookup[a.actionType.name_key] = actionSummary;
 
-        const topic = this.topic;
-
-        console.log('topic ', topic);
-
-        // Do we already have the post in our list of posts? Jump there.
-        if (opts.forceLoad) {
-          this.set("loaded", false);
-        } else {
-          console.log('already loaded...')
-          const postWeWant = this.posts.findBy("post_number", opts.nearPost);
-          if (postWeWant) {
-            return Promise.resolve().then(() => this._checkIfShouldShowRevisions());
-          }
-        }
-
-        // TODO: if we have all the posts in the filter, don't go to the server for them.
-        if (!opts.refreshInPlace) {
-          this.set("loadingFilter", true);
-        }
-        this.set("loadingNearPost", opts.nearPost);
-
-        opts = deepMerge(opts, this.streamFilters);
-
-        // Request a topicView
-        return loadTopicView(topic, opts)
-          .then((json) => {
-            console.log('Made it........');
-            this.updateFromJson(json.post_stream);
-            this.setProperties({
-              loadingFilter: false,
-              timelineLookup: json.timeline_lookup,
-              loaded: true,
-            });
-            this._checkIfShouldShowRevisions();
-          })
-          .catch((result) => {
-            console.log("Didn't....", result);
-            this.errorLoading(result);
-            throw new Error(result);
-          })
-          .finally(() => {
-            this.set("loadingNearPost", null);
+            if (a.actionType.name_key === "like") {
+              json.likeAction = actionSummary;
+            }
+            return actionSummary;
           });
-      },
 
-      errorLoading(result) {
-        console.log(result);
-        const topic = this.topic;
-        this.set("loadingFilter", false);
-        topic.set("errorLoading", true);
-
-        const json = result.jqXHR?.responseJSON;
-        if (json && json.extras && json.extras.html) {
-          topic.set("errorHtml", json.extras.html);
-        } else {
-          topic.set("errorMessage", I18n.t("topic.server_error.description"));
-          topic.set("noRetry", result.jqXHR?.status === 403);
+          json.actionByName = lookup;
         }
+
+        if (json && json.reply_to_user) {
+          json.reply_to_user = User.create(json.reply_to_user);
+        }
+
+        return json;
       }
-    })
+    });
   }
 };
