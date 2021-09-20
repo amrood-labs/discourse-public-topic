@@ -3,6 +3,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import Category from "discourse/models/category";
 import postStreamhtml from "discourse/plugins/discourse-public-topic/discourse/lib/post-stream";
 import postAvatarhtml from "discourse/plugins/discourse-public-topic/discourse/lib/post-avatar";
+import hamburgerCategoriesHTML from "discourse/plugins/discourse-public-topic/discourse/lib/hamburger-categories";
 
 function initializeDiscoursePublicTopic(api) {
 
@@ -55,6 +56,11 @@ function initializeDiscoursePublicTopic(api) {
       }
       return Category._idMap()[id];
     }
+  });
+
+  // Reopen widget to remove the href on categories link.
+  api.reopenWidget('hamburger-categories', {
+    html: hamburgerCategoriesHTML
   });
 }
 
