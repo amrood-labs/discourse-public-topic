@@ -2,7 +2,6 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 
 import Category from "discourse/models/category";
 import postStreamhtml from "discourse/plugins/discourse-public-topic/discourse/lib/post-stream";
-import postAvatarhtml from "discourse/plugins/discourse-public-topic/discourse/lib/post-avatar";
 import hamburgerCategoriesHTML from "discourse/plugins/discourse-public-topic/discourse/lib/hamburger-categories";
 
 function initializeDiscoursePublicTopic(api) {
@@ -10,11 +9,6 @@ function initializeDiscoursePublicTopic(api) {
   // Use updated postTransform in post-stream widget
   api.reopenWidget('post-stream', {
     html: postStreamhtml
-  });
-
-  // Use updated autoGroupFlairForUser in post-avatar widget
-  api.reopenWidget('post-avatar', {
-    html: postAvatarhtml
   });
 
   // Share buttons on every post...

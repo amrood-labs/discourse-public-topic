@@ -18,17 +18,19 @@ function postTransformCallbacks(transformed) {
 }
 
 export default function html(attrs) {
-  const posts = attrs.posts || [],
-    postArray = posts.toArray(),
-    result = [],
-    before = attrs.gaps && attrs.gaps.before ? attrs.gaps.before : {},
-    after = attrs.gaps && attrs.gaps.after ? attrs.gaps.after : {},
-    mobileView = this.site.mobileView;
+  const posts = attrs.posts || [];
+  const postArray = posts.toArray();
+  const postArrayLength = postArray.length;
+  const maxPostNumber = postArray[postArrayLength - 1].post_number;
+  const result = [];
+  const before = attrs.gaps && attrs.gaps.before ? attrs.gaps.before : {};
+  const after = attrs.gaps && attrs.gaps.after ? attrs.gaps.after : {};
+  const mobileView = this.site.mobileView;
 
   let prevPost;
   let prevDate;
 
-  for (let i = 0; i < postArray.length; i++) {
+  for (let i = 0; i < postArrayLength; i++) {
     const post = postArray[i];
 
     if (post instanceof Placeholder) {
@@ -105,6 +107,18 @@ export default function html(attrs) {
           { pos: "after", postId: post.id, gap: afterGap },
           { model: post }
         )
+      );
+    }
+
+    if (
+      i !== postArrayLength - 1 &&
+      maxPostNumber <= attrs.highestPostNumber &&
+      attrs.lastReadPostNumber === post.post_number
+    ) {
+      result.push(
+        this.attach("topic-post-visited-line", {
+          post_number: post.post_number,
+        })
       );
     }
 
