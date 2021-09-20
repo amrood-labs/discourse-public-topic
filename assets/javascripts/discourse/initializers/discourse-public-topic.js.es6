@@ -12,35 +12,35 @@ function initializeDiscoursePublicTopic(api) {
   });
 
   // Share buttons on every post...
-  api.attachWidgetAction('post', 'shareToTwitter', function() {
-    const shareUrl = this.attrs.shareUrl;
-    window.open(`https://twitter.com/share?&url=${window.location.origin}${shareUrl}`, '_blank').focus();
-  });
+  // api.attachWidgetAction('post', 'shareToTwitter', function() {
+  //   const shareUrl = this.attrs.shareUrl;
+  //   window.open(`https://twitter.com/share?&url=${window.location.origin}${shareUrl}`, '_blank').focus();
+  // });
 
-  api.attachWidgetAction('post', 'shareToFacebook', function() {
-    const shareUrl = this.attrs.shareUrl;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.origin}${shareUrl}`, '_blank').focus();
-  });
+  // api.attachWidgetAction('post', 'shareToFacebook', function() {
+  //   const shareUrl = this.attrs.shareUrl;
+  //   window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.origin}${shareUrl}`, '_blank').focus();
+  // });
 
-  api.addPostMenuButton('twitter', () => {
-    return {
-      action: 'shareToTwitter',
-      icon: 'fab-twitter',
-      className: 'fab-twitter',
-      title: 'twitter.title',
-      position: 'first'
-    };
-  });
+  // api.addPostMenuButton('twitter', () => {
+  //   return {
+  //     action: 'shareToTwitter',
+  //     icon: 'fab-twitter',
+  //     className: 'fab-twitter',
+  //     title: 'twitter.title',
+  //     position: 'first'
+  //   };
+  // });
 
-  api.addPostMenuButton('facebook', () => {
-    return {
-      action: 'shareToFacebook',
-      icon: 'fab-facebook',
-      className: 'fab-facebook',
-      title: 'facebook.title',
-      position: 'first'
-    };
-  });
+  // api.addPostMenuButton('facebook', () => {
+  //   return {
+  //     action: 'shareToFacebook',
+  //     icon: 'fab-facebook',
+  //     className: 'fab-facebook',
+  //     title: 'facebook.title',
+  //     position: 'first'
+  //   };
+  // });
 
   Category.reopenClass({
     // Override this for case when there are no categories.
