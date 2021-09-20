@@ -7,6 +7,7 @@ import { loadTopicView } from "discourse/models/topic";
 import ActionSummary from "discourse/models/action-summary";
 import Post from "discourse/models/post";
 import Site from "discourse/models/site";
+import User from "discourse/models/user";
 import ApplicationController from 'discourse/controllers/application';
 
 export default {
@@ -47,12 +48,16 @@ export default {
 
     Post.reopenClass({
       munge(json) {
-        if (json.actions_summary && json.actions_summary[0]?.can_act) {
+        if (json.actions_summary) {
+          // If any can_act or acted is not there, then its an annon user...
+          json.actions_summary = json.actions_summary.filter((a) => {
+            return (a.can_act !== undefined || a.acted !== undefined)
+          });
+
           const lookup = EmberObject.create();
 
           // this area should be optimized, it is creating way too many objects per post
           json.actions_summary = json.actions_summary.map((a) => {
-            console.log(a);
             a.actionType = Site.current().postActionTypeById(a.id);
             a.count = a.count || 0;
             const actionSummary = ActionSummary.create(a);
