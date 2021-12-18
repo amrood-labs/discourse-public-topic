@@ -1,0 +1,21 @@
+en:
+  site_settings:
+    discourse_public_topic_enabled: "Enable ability to make indivisual topics available to public."
+  contact_us:
+    title: Contact Us
+    description: If you have any queries, get in touch with us.
+    name: Name
+    email: Email
+    query: Query
+    submit: Submit
+    thanks: Besten Dank für Ihre Kontaktaufnahme. Wir werden Ihre Anfrage so rasch als möglich beantworten.
+  someone_contacted_via_contact_us:
+    title: "Someone contacted via Contact us"
+    subject_template: "%{name} has submitted a new query via Contact US!"
+    text_body_template: |
+      Name: %{name}
+
+      email: %{email}
+
+      query: %{query}
+
