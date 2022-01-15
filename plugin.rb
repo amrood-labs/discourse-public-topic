@@ -98,9 +98,4 @@ after_initialize do
     return unless action_name == 'show'
     add_contact_us_page_path
   end
-
-  # Set the thanks session to nil.
-  add_model_callback(:static_controller, :after_action) do
-    session['thanks'] = nil if session['thanks'] && action_name == 'show'
-  end
 end

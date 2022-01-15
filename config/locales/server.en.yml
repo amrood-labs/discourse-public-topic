@@ -8,6 +8,8 @@ en:
     email: Email
     query: Query
     submit: Submit
+  thank_you:
+    heading: Thank You!
     thanks: Thank you for contacting us, We will get back to you soon!
   someone_contacted_via_contact_us:
     title: "Someone contacted via Contact us"

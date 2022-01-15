@@ -5,7 +5,6 @@ class DiscoursePublicTopic::ContactUsController < ::ApplicationController
     DiscoursePublicTopic::ContactMailer.notify_about_query(
       params.permit(:name, :email, :query).to_h
     )
-    session['thanks'] = I18n.t('contact_us.thanks')
-    redirect_to contact_us_path
+    redirect_to thank_you_path
   end
 end

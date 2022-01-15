@@ -1,11 +1,3 @@
-<% if session['thanks'] %>
-  <div class="row">
-    <div id="global-notice-alert-bootstrap-mode" class="alert alert-info alert-bootstrap-mode">
-      <span class="text"><%= session['thanks'] %></span>
-    </div>
-  </div>
-<% end %>
-
 <%= form_tag(contact_us_path) do %>
   <div class="wizard-step-contents">
     <h1 class="wizard-step-title"><p><%= t('contact_us.title') %></p></h1>
