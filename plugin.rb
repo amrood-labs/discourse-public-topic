@@ -74,7 +74,7 @@ after_initialize do
     return true if is_admin?
     return false if hide_deleted && topic.deleted_at && !can_see_deleted_topics?(topic.category)
 
-    return true if topic.category.custom_fields&.[](:make_topics_public) == 'true'
+    return true if topic&.category&.custom_fields&.[](:make_topics_public) == 'true'
 
     if topic.private_message?
       return authenticated? && topic.all_allowed_users.where(id: @user.id).exists?
@@ -98,4 +98,23 @@ after_initialize do
     return unless action_name == 'show'
     add_contact_us_page_path
   end
+
+  # Activate user immediatly when they signup if they are in vsao db.
+  # Let admin manually activate the rest.
+  DiscourseEvent.on :user_confirmed_email do |user|
+    url = URI("https://vsao.ch/wp-json/doc-doc/check-member/?email=#{user.email}")
+    response = Net::HTTP.get(url)
+    parsed_response = JSON.parse(response)
+
+    # This is a block being called by Discourse App.
+    # Cant use guard clause here.
+    if parsed_response['member'] == 'ja'
+      admin = User.real.where(admin: true).first
+      reviewable = ReviewableUser.find_by(target: user) ||
+        Jobs::CreateUserReviewable.new.execute(user_id: user.id).reviewable
+
+      reviewable.perform(admin, :approve_user)
+    end
+  end
+
 end
