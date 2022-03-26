@@ -1,4 +1,4 @@
-en:
+de:
   site_settings:
     discourse_public_topic_enabled: "Enable ability to make indivisual topics available to public."
   contact_us:
@@ -20,4 +20,3 @@ en:
       email: %{email}
 
       query: %{query}
-
