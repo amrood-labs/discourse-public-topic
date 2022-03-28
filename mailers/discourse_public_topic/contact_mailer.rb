@@ -7,6 +7,6 @@ class DiscoursePublicTopic::ContactMailer < ActionMailer::Base
 
   def notify_about_query(contact_details)
     contact_details.merge(template: 'someone_contacted_via_contact_us')
-    build_email('kommunikation@vsao-zh.ch', *contact_details)
+    build_email('informatik@berta-kommunikation.ch', *contact_details)
   end
 end
