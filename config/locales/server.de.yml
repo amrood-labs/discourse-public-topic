@@ -2,18 +2,18 @@ de:
   site_settings:
     discourse_public_topic_enabled: "Enable ability to make indivisual topics available to public."
   contact_us:
-    title: Contact Us
-    description: If you have any queries, get in touch with us.
+    title: Wir hören zu
+    description: Schildere uns anonym oder persönlich dein Anliegen. Deine Email ist zwingend nötig, wenn du eine Antwort möchtest.
     name: Name
-    email: Email
-    query: Query
-    submit: Submit
+    email: E-Mail-Adresse
+    query: Betreff
+    submit: Senden
   thank_you:
     heading: Danke schön!
     thanks: Besten Dank für Ihre Kontaktaufnahme. Wir werden Ihre Anfrage so rasch als möglich beantworten.
   someone_contacted_via_contact_us:
-    title: "Someone contacted via Contact us"
-    subject_template: "%{name} has submitted a new query via Contact US!"
+    title: "doc-doc.ch Kontaktformular"
+    subject_template: "%{name} hat eine neue Anfrage über Kontaktformular eingereicht!"
     text_body_template: |
       Name: %{name}
 
