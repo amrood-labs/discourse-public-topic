@@ -17,6 +17,6 @@ de:
     text_body_template: |
       Name: %{name}
 
-      email: %{email}
+      E-Mail-Adresse: %{email}
 
-      query: %{query}
+      Betreff: %{query}

@@ -17,7 +17,7 @@ en:
     text_body_template: |
       Name: %{name}
 
-      email: %{email}
+      Email Address: %{email}
 
-      query: %{query}
+      Query: %{query}
 
