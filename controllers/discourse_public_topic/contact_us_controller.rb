@@ -3,7 +3,7 @@ class DiscoursePublicTopic::ContactUsController < ::ApplicationController
 
   def create
     message = DiscoursePublicTopic::ContactMailer.notify_about_query(
-      params.permit(:name, :email, :query).to_h
+      params.permit(:name, :email, :query).to_h.symbolize_keys
     )
     Email::Sender.new(message, :someone_contacted_via_contact_us).send
     redirect_to thank_you_path

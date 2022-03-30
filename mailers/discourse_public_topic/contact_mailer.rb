@@ -6,7 +6,7 @@ class DiscoursePublicTopic::ContactMailer < ActionMailer::Base
   layout 'email_template'
 
   def notify_about_query(contact_details)
-    contact_details.merge(template: 'someone_contacted_via_contact_us')
-    build_email('informatik@berta-kommunikation.ch', *contact_details)
+    contact_details.merge!(template: 'someone_contacted_via_contact_us')
+    build_email('informatik@berta-kommunikation.ch', **contact_details)
   end
 end
