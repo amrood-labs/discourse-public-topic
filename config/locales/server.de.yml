@@ -3,14 +3,14 @@ de:
     discourse_public_topic_enabled: "Enable ability to make indivisual topics available to public."
   contact_us:
     title: Wir hören zu
-    description: Schildere uns anonym oder persönlich dein Anliegen. Deine Email ist zwingend nötig, wenn du eine Antwort möchtest.
+    description: Schildere uns anonym oder persönlich Dein Anliegen. Deine Email ist zwingend nötig, wenn Du eine Antwort möchtest.
     name: Name
     email: E-Mail-Adresse
     query: Betreff
     submit: Senden
   thank_you:
-    heading: Danke schön!
-    thanks: Besten Dank für Ihre Kontaktaufnahme. Wir werden Ihre Anfrage so rasch als möglich beantworten.
+    heading: Dankeschön!
+    thanks: Besten Dank für Deine Kontaktaufnahme. Wir werden Deine Anfrage so rasch als möglich beantworten.
   someone_contacted_via_contact_us:
     title: "doc-doc.ch Kontaktformular"
     subject_template: "%{name} hat eine neue Anfrage über Kontaktformular eingereicht!"
